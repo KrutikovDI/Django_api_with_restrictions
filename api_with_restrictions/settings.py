@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
-    'rest_framework.authtoken',
+    'rest_framework.authtoken',   # настройка аутентификации
     'django_filters',
 
     'advertisements',
@@ -73,7 +73,18 @@ TEMPLATES = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.TokenAuthentication',   #          настройка аутентификации
+    ],
+    'DEFAULT_THROTTLE_CLASSES': [                               #  настройка ограничения запросов в ед.времени
+        'rest_framework.throttling.UserRateThrottle',
+        'rest_framework.throttling.AnonRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATE': {
+        'user': '10/minute',            # для авторизированных пользователей
+        'anon': '2/minute',             # для анонимных пользователей
+    },
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
     ]
 }
 
