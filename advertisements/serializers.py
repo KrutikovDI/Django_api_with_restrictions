@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
+from django_filters import rest_framework as filters, DateFromToRangeFilter
 
 from advertisements.models import Advertisement
 
@@ -24,7 +25,7 @@ class AdvertisementSerializer(serializers.ModelSerializer):
     class Meta:
         model = Advertisement
         fields = ('id', 'title', 'description', 'creator',
-                  'status', 'created_at', )
+                  'status', 'created_at',)
 
     def create(self, validated_data):
         """Метод для создания"""
@@ -41,7 +42,12 @@ class AdvertisementSerializer(serializers.ModelSerializer):
     def validate(self, data):
     #     """Метод для валидации. Вызывается при создании и обновлении."""
     #     # TODO: добавьте требуемую валидацию
-
-        if self.initial_data.get('status').count() > 3:
+        if Advertisement.objects.filter(creator=self.context['request'].user, status='OPEN').count() > 3:
             raise ValidationError('превышено количество открытых объявлений')
         return data
+
+class AdvertisementFilter(filters.FilterSet):
+    created_at_before = DateFromToRangeFilter()
+    class Meta:
+        model = Advertisement
+        fields = ('created_at',)

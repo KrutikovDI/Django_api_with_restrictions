@@ -6,4 +6,4 @@ class IsAutor(BasePermission):
         if request.method in SAFE_METHODS:
             return True
 
-        return request.user == obj.author
+        return request.user == obj.creator
