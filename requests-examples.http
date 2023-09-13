@@ -45,5 +45,5 @@ Content-Type: application/json
 ###
 
 # удаляем объявление
-DELETE {{baseUrl}}/advertisements/24/
+DELETE {{baseUrl}}/advertisements/22/
 Authorization: Token 2c78e92d6fd9883a2a83aea2186d6aaea1481446

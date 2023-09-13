@@ -45,9 +45,3 @@ class AdvertisementSerializer(serializers.ModelSerializer):
         if Advertisement.objects.filter(creator=self.context['request'].user, status='OPEN').count() > 3:
             raise ValidationError('превышено количество открытых объявлений')
         return data
-
-class AdvertisementFilter(filters.FilterSet):
-    created_at_before = DateFromToRangeFilter()
-    class Meta:
-        model = Advertisement
-        fields = ('created_at',)
